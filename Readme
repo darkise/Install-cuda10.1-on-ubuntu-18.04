@@ -1,0 +1,37 @@
+1 Getting Started
+Before starting, you will need to verify that your GPU can work with CUDA or not. You can verify it using the following command:
+
+lspci | grep NVIDIA
+
+2 Get the NVIDIA driver installed
+The simplest way to install the driver is from the "graphics-drivers ppa".
+
+sudo add-apt-repository ppa:graphics-drivers/ppa
+sudo apt-get update
+sudo apt-get install nvidia-driver-418
+
+3 Download runfile from https://developer.nvidia.com/cuda-zone
+
+4 Run the "runfile" to install the CUDA toolkit and samples 
+
+sudo sh cuda_10.1.105_418.39_linux.run
+
+NOTE: Un-check the "Driver" block and then select "Install" and hit "Enter".
+
+5 Setup your environment variables
+Make sure /etc/ld.so.conf.d/cuda-10-1.conf with content:
+/usr/local/cuda-10.1/targets/x86_64-linux/lib
+
+Create file /etc/profile.d/cuda.sh with
+export PATH=$PATH:/usr/local/cuda/bin
+export CUDADIR=/usr/local/cuda
+
+Use it by
+source /etc/profile.d/cuda.sh
+
+6 Test CUDA by building the "samples" 
+mkdir cuda-testing
+cp -a /usr/local/cuda/samples cuda-testing
+cd cuda-testing/samples
+make -j4
+cd bin/x86_64/linux/release
